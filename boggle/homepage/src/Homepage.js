@@ -2,6 +2,19 @@ import React, { useState } from "react";
 import Button from "./Button.js";
 import SelectedForm from "./SelectedForm.js";
 
+/** Smart component rendering the homepage
+ *
+ *  Props:
+ *  - none
+ *
+ *  States:
+ *  - form: like "create" or "join"
+ *  - isUser: Boolean
+ *  - formResults: like { roomName } or { roomCode }
+ *
+ *  App -> Homepage -> { SelectedForm, Button }
+ */
+
 function Homepage() {
   const [form, setForm] = useState("");
   const [isUser, setIsUser] = useState(false);

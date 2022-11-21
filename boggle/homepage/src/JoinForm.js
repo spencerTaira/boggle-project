@@ -5,6 +5,18 @@ const defaultFormData = {
   roomCode: "",
 }
 
+/** Form for joining a room
+ *
+ *  Props:
+ *  - initialFormData
+ *  - joinRoom: fn to call in parent
+ *
+ *  States:
+ *  - formData: like { roomCode }
+ *
+ *  SelectedForm -> JoinForm -> Button
+ */
+
 function JoinForm({ initialFormData=defaultFormData , joinRoom }) {
   const [formData, setFormData] = useState(initialFormData);
 

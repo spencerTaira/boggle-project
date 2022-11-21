@@ -5,6 +5,18 @@ const defaultFormData = {
   roomName: "",
 }
 
+/** Form for creating a room
+ *
+ *  Props:
+ *  - initialFormData
+ *  - addRoom: fn to call in parent
+ *
+ *  States:
+ *  - formData: like { roomName }
+ *
+ *  SelectedForm -> CreateForm -> Button
+ */
+
 function CreateForm({ initialFormData=defaultFormData , addRoom }) {
   const [formData, setFormData] = useState(initialFormData);
 
