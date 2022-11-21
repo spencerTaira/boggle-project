@@ -1,11 +1,35 @@
 import React, { useState } from "react";
+import Button from "./Button.js";
 
 function Homepage() {
-  const [createOrJoin, setCreateOrJoin] = useState(false);
+  const [form, setForm] = useState("");
   const [isUser, setIsUser] = useState(false);
   const [formResults, setFormResults] = useState({});
 
-  
+  console.log("Homepage", form, isUser, formResults);
+
+  function selectForm(evt) {
+    console.log(evt.target.classList.value);
+    const buttonClasses = evt.target.classList.value;
+
+    if(buttonClasses.includes("create")) {
+      setForm("create");
+    }
+
+    else {
+      setForm("join");
+    }
+  }
+
+  return(
+    <div className="Homepage">
+      <h1>Boggle</h1>
+      <div className="buttons">
+        <Button click={selectForm} label="Create Room" type="create"/>
+        <Button click={selectForm} label="Join Room" type="join"/>
+      </div>
+    </div>
+  );
 }
 
 export default Homepage;
