@@ -19,6 +19,7 @@ const defaultFormData = {
 
 function CreateForm({ initialFormData=defaultFormData , addRoom }) {
   const [formData, setFormData] = useState(initialFormData);
+  console.log(formData, "<<<<<<<<< formData in Create Form")
 
   function handleChange(evt) {
     const { name, value } = evt.target;
@@ -45,7 +46,7 @@ function CreateForm({ initialFormData=defaultFormData , addRoom }) {
           className="form-control"
           value={formData.roomName}
           onChange={handleChange}
-          name="room-name"
+          name="roomName"
           aria-label="Room Name"
         />
       </div>
