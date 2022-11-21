@@ -12,10 +12,14 @@ import JoinForm from "./JoinForm.js";
  *  HomePage -> SelectedForm -> { CreateForm, JoinForm }
  */
 
-function SelectedForm({type}){
+function SelectedForm({type, fn}){
+
     return (
         <div>
-            {type === "create" ? <CreateForm /> : <JoinForm />}
+            {type === "create" 
+                ? <CreateForm addRoom={fn}/> 
+                : <JoinForm joinRoom={fn}/>
+            }
         </div>
     );
 }
