@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Button from "./Button.js";
+import SelectedForm from "./SelectedForm.js";
 
 function Homepage() {
   const [form, setForm] = useState("");
@@ -28,6 +29,7 @@ function Homepage() {
         <Button click={selectForm} label="Create Room" type="create"/>
         <Button click={selectForm} label="Join Room" type="join"/>
       </div>
+      {form ? <SelectedForm type={form} /> : null }
     </div>
   );
 }
