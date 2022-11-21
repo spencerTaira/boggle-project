@@ -11,10 +11,10 @@
  *  { Madlib, MadlibForm } -> Button
  */
 
-function Button({ click, label }) {
+function Button({ click, label, type }) {
   return (
     <button
-        className="Button"
+        className={`Button ${type}`}
         onClick={click}>
       {label}
     </button>
