@@ -45,7 +45,7 @@ function JoinForm({ initialFormData=defaultFormData , joinRoom }) {
           className="form-control"
           value={formData.roomCode}
           onChange={handleChange}
-          name="room-code"
+          name="roomCode"
           aria-label="Room Code"
         />
       </div>
