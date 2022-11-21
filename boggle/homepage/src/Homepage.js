@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "./Button.js";
 import SelectedForm from "./SelectedForm.js";
+import { v4 as uuid } from "uuid";
 
 /** Smart component rendering the homepage
  *
@@ -10,30 +11,51 @@ import SelectedForm from "./SelectedForm.js";
  *  States:
  *  - form: like "create" or "join"
  *  - isUser: Boolean
- *  - formResults: like { roomName } or { roomCode }
+ *  - formData: like { roomName } or { roomCode }
  *
  *  App -> Homepage -> { SelectedForm, Button }
  */
 
 function Homepage() {
-  const [form, setForm] = useState("");
+  const [form, setForm] = useState({name: "", fn: null});
   const [isUser, setIsUser] = useState(false);
-  const [formResults, setFormResults] = useState({});
+  const [formData, setFormData] = useState({});
+  const [rooms, setRooms] = useState([]);
 
-  console.log("Homepage", form, isUser, formResults);
+  console.log("Homepage", form, isUser, formData, rooms);
 
+  /** Identify which button was selected. Create or Join */
   function selectForm(evt) {
     console.log(evt.target.classList.value);
     const buttonClasses = evt.target.classList.value;
 
     if(buttonClasses.includes("create")) {
-      setForm("create");
+      setForm({
+        name: "create",
+        fn: addRoom
+      });
     }
 
     else {
-      setForm("join");
+      setForm({
+        name: "join",
+        fn: joinRoom
+      });
     }
   }
+
+  /** Add Room Function */
+  function addRoom(room){
+    const newRoom = {...room, id: uuid()}; 
+    setRooms(rooms => [...rooms, newRoom]);
+  }
+
+  /** Add Room Function */
+  function joinRoom(room){
+    console.log("Joined Room!!", room);
+  }
+
+
 
   return(
     <div className="Homepage">
@@ -42,7 +64,7 @@ function Homepage() {
         <Button click={selectForm} label="Create Room" type="create"/>
         <Button click={selectForm} label="Join Room" type="join"/>
       </div>
-      {form ? <SelectedForm type={form} /> : null }
+      {form.name ? <SelectedForm type={form.name} fn={form.fn}/> : null }
     </div>
   );
 }
