@@ -3,7 +3,9 @@ import React from "react";
 function JoinForm() {
   return (
     <form className="JoinForm">
-      <p>Test</p>
+      <p>Join Test</p>
     </form>
-  )
+  );
 }
+
+export default JoinForm;

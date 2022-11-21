@@ -3,7 +3,9 @@ import React from "react";
 function CreateForm() {
   return (
     <form className="CreateForm">
-      <p>Test</p>
+      <p>Create Test</p>
     </form>
-  )
+  );
 }
+
+export default CreateForm;
