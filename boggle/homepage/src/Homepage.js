@@ -13,8 +13,11 @@ import UsernameForm from "./UsernameForm.js";
  *  - form: like "create" or "join"
  *  - isUser: Boolean
  *  - formData: like { roomName } or { roomCode }
+ *  - rooms: like [{ room }, ...]
+ *    --room: like { roomName, id }
+ *  - user: like { username }
  *
- *  App -> Homepage -> { SelectedForm, Button }
+ *  App -> Homepage -> { SelectedForm, Button, UsernameForm }
  */
 
 function Homepage() {
@@ -24,7 +27,7 @@ function Homepage() {
   const [rooms, setRooms] = useState([]);
   const [user, setUser] = useState(null);
 
-  console.log("Homepage", form, isUser, formData, rooms);
+  console.log("Homepage", form, isUser, formData, rooms, "<ROOM",user);
 
   /** Identify which button was selected. Create or Join */
   function selectForm(evt) {
@@ -72,12 +75,14 @@ function Homepage() {
   return(
     <div className="Homepage">
       <h1>Boggle</h1>
+      
+      { isUser ? 
       <div className="buttons">
         <Button click={selectForm} label="Create Room" type="create"/>
         <Button click={selectForm} label="Join Room" type="join"/>
       </div>
+      : <UsernameForm addUser={addUser} /> }
       { form.name ? <SelectedForm type={form.name} fn={form.fn} /> : null }
-      { isUser ? null : <UsernameForm addUser={addUser} /> }
     </div>
   );
 }
@@ -85,4 +90,3 @@ function Homepage() {
 export default Homepage;
 
 //TODO: show rooms that are in db (exists)
-//{isUser ? null : <UsernameForm addUser={addUser} /> }
