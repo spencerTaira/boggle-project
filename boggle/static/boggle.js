@@ -16,10 +16,20 @@ let secondsLeftInGame;
 
 /** Start */
 
-async function start() {
-  let response = await axios.post("/api/new-game");
-  gameId = response.data.gameId;
-  let board = response.data.board;
+// async function start() {
+//   let response = await axios.post("/api/new-game");
+//   gameId = response.data.gameId;
+//   let board = response.data.board;
+
+//   displayBoard(board);
+//   secondsLeftInGame = GAME_LENGTH_SECS;
+//   showTimer(secondsLeftInGame);
+// }
+
+function start(data) {
+  console.debug("start", data);
+  gameId = data.gameId;
+  let board = data.board;
 
   displayBoard(board);
   secondsLeftInGame = GAME_LENGTH_SECS;
@@ -41,30 +51,47 @@ function displayBoard(board) {
 
 /** Handle form submit: submit to API, focus on input. */
 
-async function handleFormSubmit(evt) {
-  evt.preventDefault();
+// async function handleFormSubmit(evt) {
+//   evt.preventDefault();
 
-  const word = $wordInput.val().toUpperCase();
-  if (!word) return;
+//   const word = $wordInput.val().toUpperCase();
+//   if (!word) return;
 
-  await submitWordToAPI(word);
+//   await submitWordToAPI(word);
 
-  $wordInput.val("").focus();
-}
+//   $wordInput.val("").focus();
+// }
 
-$form.on("submit", handleFormSubmit);
+
 
 
 /** Submit word to API and handle response. */
 
-async function submitWordToAPI(word) {
-  const response = await axios({
-    url: "/api/score-word",
-    method: "POST",
-    data: { word, gameId }
-  });
+// async function submitWordToAPI(word) {
+//   const response = await axios({
+//     url: "/api/score-word",
+//     method: "POST",
+//     data: { word, gameId }
+//   });
 
-  const {result, gameScore} = response.data;
+//   const {result, gameScore} = response.data;
+
+//   if (result === "already-played") {
+//     showMessage(`Already played: ${word}`, "err");
+//   } else if (result === "not-word") {
+//     showMessage(`Not valid word: ${word}`, "err");
+//   } else if (result === "not-on-board") {
+//     showMessage(`Not on board: ${word}`, "err");
+//   } else {
+//     showWord(word);
+//     showScore(gameScore);
+//     showMessage(`Added: ${word}`, "ok");
+//   }
+// }
+
+function handleGuessResult(data) {
+
+  const {word, result, gameScore} = data;
 
   if (result === "already-played") {
     showMessage(`Already played: ${word}`, "err");
@@ -144,6 +171,3 @@ async function endGame() {
             High score: ${highScore} /
             Num plays: ${numPlays}`);
 }
-
-
-start();

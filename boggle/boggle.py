@@ -66,8 +66,11 @@ class BoggleGame():
         self.max_word_length_score = max_word_length_score
 
         self.board = self.get_random_board(fill_letters)
+
+        #Move to USER
         self.played_words = set()
         self.score = 0
+        #Move above to USER
 
     def __repr__(self):
         board_text = ".".join(["".join(row) for row in self.board])
@@ -92,11 +95,13 @@ class BoggleGame():
         word_score = self.word_length_scores.get(
             len(word), self.max_word_length_score)
 
+# MOVE TO WS VIEW FUNCTION (Call USER CLASS to add word and score)
         self.played_words.add(word)
         self.score += word_score
 
         return word_score
 
+# USER CLASS
     def is_word_not_a_dup(self, word):
         """Return True/False if a word has not already been played."""
 
