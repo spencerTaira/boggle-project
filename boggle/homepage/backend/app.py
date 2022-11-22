@@ -13,7 +13,10 @@ def homepage():
                   {"name": "Room2", "id" : "567"}, 
                   {"name": "Room3", "id" : "890"}]}
 
-# 
+# POST: add room
+@app.post("/homepage/<room_name>")
+def addRoom(room_name):
+    
 
 
 if __name__ == "__main__":
