@@ -3,10 +3,18 @@ from flask import Flask
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "secret"
 
-# Members API Route 
-@app.route("/members")
-def members():
-    return {"members": ["happy", "sed", "med"]}
+################ Homepage route ##########################
+
+# Retrieve rooms
+@app.get("/homepage")
+def homepage():
+    return {"rooms": 
+                [ {"name": "Room1", "id" : "1234"}, 
+                  {"name": "Room2", "id" : "567"}, 
+                  {"name": "Room3", "id" : "890"}]}
+
+# 
+
 
 if __name__ == "__main__":
     app.run()
