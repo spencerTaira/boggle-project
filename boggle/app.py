@@ -29,6 +29,8 @@ def homepage():
         num_plays=session[SESS_NUM_PLAYS_KEY])
 
 
+
+# This data is a one time send to all players on start
 @app.post("/api/new-game")
 def new_game():
     """Start a new game and return JSON: {game_id, board}."""
@@ -90,3 +92,27 @@ def end_game():
         gameScore=game.score,
         numPlays=num_plays,
         highScore=high_score)
+
+
+#update score WS route
+#socket.on(guess):
+#received data ("guess", {user:"str", word:"str", game_id:(uuid) })
+#send data ("updateScore", {user:(username), score:(int)}, to=(room))
+# or
+#send data ("invalidguess", {word:"str", reason:"str"})
+
+#recieve chat WS message
+#socket.on(message):
+#received data ("message", {user:(username), message:(msg content)})
+#send data ("message", {fromUser:username, message:(msg content)}, to=(room))
+
+#send game WS state data
+#socket.on(gamedata)
+#received data ("start", {start:true})
+#send data ("gamedata", {users:[user1,...], gameId:(uuid), gameboard:(letters on board)})
+#run timer function that emits seconds until start
+
+
+#What are we going to store in session data?????????????
+
+#What will user class look like?????????
