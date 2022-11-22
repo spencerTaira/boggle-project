@@ -24,11 +24,10 @@ import Rooms from "./Rooms.js";
 function Homepage() {
   const [form, setForm] = useState({name: "", fn: null});
   const [isUser, setIsUser] = useState(false);
-  const [formData, setFormData] = useState({});
   const [rooms, setRooms] = useState([]);
   const [user, setUser] = useState(null);
 
-  console.log("Homepage", form, isUser, formData, rooms, "<ROOM",user);
+  console.log("Homepage", form, isUser, rooms, "<ROOM",user);
 
   /** Identify which button was selected. Create or Join */
   function selectForm(evt) {
