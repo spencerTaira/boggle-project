@@ -30,6 +30,7 @@ function Homepage() {
   const [testData, setTestData] = useState([{}])
 
   console.log("Homepage", form, isUser, rooms, "<ROOM",user);
+  console.log(testData, "<<<<<<<<<< test Data")
 
   /** Identify which button was selected. Create or Join */
   function selectForm(evt) {
@@ -53,7 +54,7 @@ function Homepage() {
 
   // function TestConnect(){
   //   useEffect(() => {
-  //     fetch("/members").then(
+  //     fetch("/homepage").then(
   //       res => res.json()
   //     ).then(
   //       data => {
@@ -63,12 +64,14 @@ function Homepage() {
   //     )
   //   }, [])
   // }
+  // TestConnect();
 
   function AxiosTest(){
     useEffect(() => {
-      axios.get("/members")
+      axios.get("/homepage")
         .then(
             res => {
+              console.log(res, "<<<<<<<<< res")
               setTestData(res.data)
               console.log(res.data, "<<< from backend");
           }
@@ -78,7 +81,6 @@ function Homepage() {
 
   AxiosTest();
 
-  // TestConnect();
 
   /** Add Room Function */
   function addRoom(room){
@@ -86,6 +88,7 @@ function Homepage() {
     setRooms(rooms => [...rooms, newRoom]);
     //Make axios call to backend. Make query to update rooms table.
     //Take us to lobby
+    //store roomName in session
   }
 
   /** Add Room Function */
@@ -94,10 +97,14 @@ function Homepage() {
     //on backend,
     //Make axios call and check if room exists
     //if it does, enter lobby. make get request to render the lobby html
+    //store roomName in session
+    //get request TODO: communicate with backend
+      //render template for lobby page of roomName
   }
 
   /** Add User */
   function addUser(userData){
+    //store username in session 
     setUser(userData);
     setIsUser(true);
   }
@@ -115,11 +122,11 @@ function Homepage() {
       : <UsernameForm addUser={addUser} /> }
       { form.name ? <SelectedForm type={form.name} fn={form.fn} /> : null }
       <Rooms rooms={rooms}/>
-      { testData.members === undefined 
+      { testData.rooms === undefined 
           ? null 
           : (
-            testData.members.map((member,i) => (
-              <p key={i}>{member}</p>
+            testData.rooms.map((room,i) => (
+            <p key={i}>{room.name} {room.id}</p>
             ))
           )
       }
