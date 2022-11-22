@@ -1,3 +1,14 @@
+/**
+ * ChatForm
+ *
+ * Props:     handleChatInputChange - function to change input value
+ *            handleChatInputSubmit - function to handle form submission
+ *            chatInput - string
+ *
+ * State:
+ *
+ * ChatBox -> ChatForm
+ */
 function ChatForm({ handleChatInputChange, handleChatInputSubmit, chatInput }) {
   return (
     <div className="ChatForm">

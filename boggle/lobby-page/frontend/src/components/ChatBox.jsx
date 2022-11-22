@@ -2,16 +2,29 @@ import { useState } from "react";
 import Chat from "./Chat";
 import ChatForm from "./ChatForm";
 
-function ChatBox({ chats }) {
+/**
+ * ChatBox
+ *
+ * Props:   chats - list of chats
+ *          sendChatMessage - function to send chat
+ *
+ * State:   chatInput - string
+ *
+ * Lobby -> ChatBox -> Chat, ChatForm
+ */
+function ChatBox({ chats, sendChatMessage }) {
   const [chatInput, setChatInput] = useState("");
 
+  /**Handle the chat input change. */
   function handleChatInputChange(evt) {
     setChatInput(evt.target.value);
   }
 
+  /**Handle the chat form submit. */
   function handleChatInputSubmit(evt) {
     evt.preventDefault();
     // TODO: socket stuff
+    sendChatMessage(chatInput);
     setChatInput("");
   }
 
@@ -23,7 +36,11 @@ function ChatBox({ chats }) {
         ))}
       </div>
       <ChatForm
-        {...{ handleChatInputChange, handleChatInputSubmit, chatInput }}
+        {...{
+          handleChatInputChange,
+          handleChatInputSubmit,
+          chatInput,
+        }}
       />
     </div>
   );
