@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "./Button.js";
 import SelectedForm from "./SelectedForm.js";
 import { v4 as uuid } from "uuid";
 import UsernameForm from "./UsernameForm.js";
 import Rooms from "./Rooms.js";
+import axios from 'axios';
 
 /** Smart component rendering the homepage
  *
@@ -26,6 +27,7 @@ function Homepage() {
   const [isUser, setIsUser] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [user, setUser] = useState(null);
+  const [testData, setTestData] = useState([{}])
 
   console.log("Homepage", form, isUser, rooms, "<ROOM",user);
 
@@ -48,6 +50,35 @@ function Homepage() {
       });
     }
   }
+
+  // function TestConnect(){
+  //   useEffect(() => {
+  //     fetch("/members").then(
+  //       res => res.json()
+  //     ).then(
+  //       data => {
+  //         setTestData(data)
+  //         console.log(data, "<<< from backend");
+  //       }
+  //     )
+  //   }, [])
+  // }
+
+  function AxiosTest(){
+    useEffect(() => {
+      axios.get("/members")
+        .then(
+            res => {
+              setTestData(res.data)
+              console.log(res.data, "<<< from backend");
+          }
+        )
+    }, [] );
+  }
+
+  AxiosTest();
+
+  // TestConnect();
 
   /** Add Room Function */
   function addRoom(room){
@@ -84,6 +115,14 @@ function Homepage() {
       : <UsernameForm addUser={addUser} /> }
       { form.name ? <SelectedForm type={form.name} fn={form.fn} /> : null }
       <Rooms rooms={rooms}/>
+      { testData.members === undefined 
+          ? null 
+          : (
+            testData.members.map((member,i) => (
+              <p key={i}>{member}</p>
+            ))
+          )
+      }
     </div>
   );
 }
