@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "./Button.js";
 import SelectedForm from "./SelectedForm.js";
 import { v4 as uuid } from "uuid";
+import UsernameForm from "./UsernameForm.js";
 
 /** Smart component rendering the homepage
  *
@@ -21,6 +22,7 @@ function Homepage() {
   const [isUser, setIsUser] = useState(false);
   const [formData, setFormData] = useState({});
   const [rooms, setRooms] = useState([]);
+  const [user, setUser] = useState(null);
 
   console.log("Homepage", form, isUser, formData, rooms);
 
@@ -48,13 +50,23 @@ function Homepage() {
   function addRoom(room){
     const newRoom = {...room, id: uuid()}; 
     setRooms(rooms => [...rooms, newRoom]);
+    //Make axios call to backend. Make query to update rooms table.
+    //Take us to lobby
   }
 
   /** Add Room Function */
   function joinRoom(room){
     console.log("Joined Room!!", room);
+    //on backend, 
+    //Make axios call and check if room exists
+    //if it does, enter lobby. make get request to render the lobby html
   }
 
+  /** Add User */
+  function addUser(userData){ 
+    setUser(userData);
+    setIsUser(true);
+  }
 
 
   return(
@@ -64,9 +76,13 @@ function Homepage() {
         <Button click={selectForm} label="Create Room" type="create"/>
         <Button click={selectForm} label="Join Room" type="join"/>
       </div>
-      {form.name ? <SelectedForm type={form.name} fn={form.fn}/> : null }
+      { form.name ? <SelectedForm type={form.name} fn={form.fn} /> : null }
+      { isUser ? null : <UsernameForm addUser={addUser} /> }
     </div>
   );
 }
 
 export default Homepage;
+
+//TODO: show rooms that are in db (exists)
+//{isUser ? null : <UsernameForm addUser={addUser} /> }
