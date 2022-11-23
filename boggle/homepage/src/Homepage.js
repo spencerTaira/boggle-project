@@ -75,24 +75,19 @@ function Homepage() {
   /** Add Room Function */
   async function AddRoom(room){
     const newRoom = {...room, id: uuid()};
-    // setRooms(rooms => [...rooms, newRoom]);
-    console.log(room, "<<<<<<<<< room in addRoom");
+    setRooms(rooms => [...rooms, newRoom]);
+    console.log(newRoom, "<<<<<<<<< room in addRoom");
 
-    // useEffect(() => {
-    //   console.log("use Effect", room)
-    // }, [] );
+    //
 
     let testing = await axios
-      .post(`/test`, testData)
+      .post(`/addRoom/${room.roomName}`, newRoom)
       .then((res) => {
-        console.log(res, "<<<<<<< in AddRoom");
-        return res
+        return res.data
       });
 
     console.log(testing, "<<<<< seeing axios")
-
-    // useEffect(() => {
-      
+    
     //   axios.post(
     //         "/test",
     //         testData)
@@ -102,8 +97,8 @@ function Homepage() {
     //         setTestData(res.data);
     //       }
     //   )
-    // }, [] )
-    //Make axios call to backend. Make query to update rooms table.
+
+    //Make axios call to backend. Add room. Go to lobby.
     //Take us to lobby
     //store roomName in session
     // JoinRoom(room);

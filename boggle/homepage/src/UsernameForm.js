@@ -19,7 +19,7 @@ const defaultFormData = {
 
 function UsernameForm({addUser, initialFormData=defaultFormData}){
     const [formData, setFormData] = useState(initialFormData);
-    console.log(formData, "<<<<<<<<< formData in Username Form");
+    //console.log(formData, "<<<<<<<<< formData in Username Form");
 
     function handleChange(evt) {
         const { name, value } = evt.target;
