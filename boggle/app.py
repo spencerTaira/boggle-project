@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, jsonify, session
 from uuid import uuid4
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from boggle import BoggleGame
+from player import Player
 
 SESS_HIGH_SCORE_KEY = "high_score"
 SESS_NUM_PLAYS_KEY = "num_plays"
@@ -16,9 +17,15 @@ socketio = SocketIO(app)
 games = {}
 
 
-@app.get("/<game_name>")
-def homepage(game_name):
+@app.get("/<room_name>")
+def homepage(room_name):
     """Show board."""
+    session["room_name"] = room_name
+    
+    ##############!!!!!!!!!!!!!!!!!!Make this real later!!!!
+    session["username"] = uuid4()
+
+
 
     # # these aren't about a particular game, but are tied to the browser
     # session[SESS_HIGH_SCORE_KEY] = session.get(SESS_HIGH_SCORE_KEY, 0)
@@ -32,24 +39,52 @@ def homepage(game_name):
         "index.html"
     )
 
+# 'connect' is magic, automatically sent from client on connection
 @socketio.on('connect')
 def test_connect():
-    game_id = str(uuid4())
-    game = BoggleGame()
-    games[game_id] = game
-    emit('connected', {"gameId":game_id, "board":game.board})
+    #game_id = str(uuid4())
+    game_id = session["room_name"]
+    username = session["username"]
+    print("What is username???????", username)
+    player = Player(username, game_id)
+    
+    #emit('debug',games)
+    if game_id in games:
+        game = games[game_id]["game"]
+        if username not in games[game_id]["players"]:
+            games[game_id]["players"][username] = player
+        emit('connected', {
+            "gameId":game_id, 
+            "board":game.board,
+            "username":f'{username}'
+            })
 
-# This data is a one time send to all players on start
-# @app.post("/api/new-game")
-# def new_game():
-#     """Start a new game and return JSON: {game_id, board}."""
+    else:    
+        game = BoggleGame()
+        emit("debug", "First user of room")
+        games[game_id] = {"game":game, "players":{f'{username}':player}}
+     #   emit("debug", games)
+        emit('connected', {
+            "gameId":game_id, 
+            "board":game.board,
+            "username":f'{username}'
+            })
 
-#     # get a unique string id for the board we're creating
-#     game_id = str(uuid4())
-#     game = BoggleGame()
-#     games[game_id] = game
+"""
+Games Object (games in existence) =
+{
+    gameId1: {
+        players: [player1(obj), player2, player3, player4], (some type of data set)
+        game: game (instance of game class)
+    },
+    gameId2: {
+        players: [player1(obj), player2, player3, player4],
+        game: game (instance of game class)
+    }
+}
+"""
 
-#     return jsonify(gameId=game_id, board=game.board)
+
 @socketio.on('guess')
 def score_word(data):
     """Check if play is valid and, if so, score the word).
@@ -107,6 +142,7 @@ def score_word(data):
 
 
 #CHANGE TO WS and wait for a KEYWORD like "end-game" (Don't forget about TIES)
+
 @app.post("/api/end-game")
 def end_game():
     """Handle end of game:
@@ -164,18 +200,6 @@ if __name__ == '__main__':
 # Games Object
 
 """
-Games Object (games in existence) =
-{
-    gameId1: {
-        players: [player1(obj), player2, player3, player4], (some type of data set)
-        game: game (instance of game class)
-    },
-    gameId2: {
-        players: [player1(obj), player2, player3, player4],
-        game: game (instance of game class)
-    }
-}
-
 Player Object =
 {
     username: user1,

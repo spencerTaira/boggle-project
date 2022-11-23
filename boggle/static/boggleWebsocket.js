@@ -3,7 +3,7 @@ var socket = io();
 
 const urlParts = document.URL.split("/");
 const roomName = urlParts[urlParts.length - 1];
-const name = prompt("Username? (no spaces)");
+//const name = prompt("Username? (no spaces)");
 
 // const $form = $("#newWordForm");
 // const $wordInput = $("#wordInput");
@@ -14,8 +14,10 @@ const name = prompt("Username? (no spaces)");
 
 socket.on('connected', start);
 socket.on('debug', (data) => console.log('debug', data));
-socket.on('guess_result', handleGuessResult)
 
+//socket.on('end_game')
+
+socket.on('guess_result', handleGuessResult);
 function handleFormSubmit(evt) {
     evt.preventDefault();
 
@@ -27,7 +29,11 @@ function handleFormSubmit(evt) {
     $wordInput.val("").focus();
   }
 
-  $form.on("submit", handleFormSubmit);
+$form.on("submit", handleFormSubmit);
+
+/** Handle end of game */
+
+
 
 // $BUTTON.on("click", sendMessage);
 // function sendMessage(evt){
