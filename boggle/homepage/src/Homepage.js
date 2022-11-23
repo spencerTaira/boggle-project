@@ -27,7 +27,7 @@ function Homepage() {
   const [isUser, setIsUser] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [user, setUser] = useState(null);
-  const [testData, setTestData] = useState([{}])
+  const [testData, setTestData] = useState([{}]);
 
   console.log("Homepage", form, isUser, rooms, "<ROOM",user);
   console.log(testData, "<<<<<<<<<< test Data")
@@ -86,9 +86,14 @@ function Homepage() {
   function addRoom(room){
     const newRoom = {...room, id: uuid()};
     setRooms(rooms => [...rooms, newRoom]);
+
+    useEffect(() => {
+      axios.post("/test")
+    })
     //Make axios call to backend. Make query to update rooms table.
     //Take us to lobby
     //store roomName in session
+    joinRoom(room);
   }
 
   /** Add Room Function */
@@ -104,7 +109,7 @@ function Homepage() {
 
   /** Add User */
   function addUser(userData){
-    //store username in session 
+    //store username in session
     setUser(userData);
     setIsUser(true);
   }
@@ -122,8 +127,8 @@ function Homepage() {
       : <UsernameForm addUser={addUser} /> }
       { form.name ? <SelectedForm type={form.name} fn={form.fn} /> : null }
       <Rooms rooms={rooms}/>
-      { testData.rooms === undefined 
-          ? null 
+      { testData.rooms === undefined
+          ? null
           : (
             testData.rooms.map((room,i) => (
             <p key={i}>{room.name} {room.id}</p>
