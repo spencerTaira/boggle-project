@@ -13,6 +13,7 @@ const roomName = urlParts[urlParts.length - 1];
 
 
 socket.on('connected', start);
+socket.on('join', updatePlayers);
 socket.on('debug', (data) => console.log('debug', data));
 
 //socket.on('end_game')

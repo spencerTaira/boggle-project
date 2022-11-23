@@ -7,6 +7,7 @@ const $score = $("#score");
 const $timer = $("#timer");
 const $message = $(".msg");
 const $table = $("table");
+const $scoreboard = $("#scoreboard");
 
 const GAME_LENGTH_SECS = 60;
 
@@ -35,6 +36,16 @@ function start(data) {
   secondsLeftInGame = GAME_LENGTH_SECS;
   showTimer(secondsLeftInGame);
 }
+
+function updatePlayers(usernames) {
+  console.debug("updatePlayers", usernames);
+  $scoreboard.empty();
+  for (const username of usernames) {
+    $scoreboard.append(`<p>${username}: ${0}</p>`)
+  }
+}
+/** Display usernames and scores */
+//TODO: update DOM with username/scores(default = 0)
 
 /** Display board */
 

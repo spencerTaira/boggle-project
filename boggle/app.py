@@ -3,6 +3,7 @@ from uuid import uuid4
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from boggle import BoggleGame
 from player import Player
+import random
 
 SESS_HIGH_SCORE_KEY = "high_score"
 SESS_NUM_PLAYS_KEY = "num_plays"
@@ -23,7 +24,7 @@ def homepage(room_name):
     session["room_name"] = room_name
 
     ##############!!!!!!!!!!!!!!!!!!Make this real later!!!!
-    session["username"] = uuid4()
+    session["username"] = str(random.randint(0,100))
 
 
 
@@ -41,40 +42,59 @@ def homepage(room_name):
 
 # 'connect' is magic, automatically sent from client on connection
 @socketio.on('connect')
-def test_connect():
+def game_connect():
     #game_id = str(uuid4())
     game_id = session["room_name"]
+    join_room(game_id)
     username = session["username"]
-    print("What is username???????", username)
+    print("--------------------What is gameID???????---------------------", game_id)
     player = Player(username, game_id)
-
-    #emit('debug',games)
-    if game_id in games:
+    print(game_id in games)
+    if (game_id in games):
+        emit('debug', 'entered 2nd time')
         game = games[game_id]["game"]
         if username not in games[game_id]["players"]:
             games[game_id]["players"][username] = player
+
+        players_info = all_player_serialize(games[game_id]["players"])
+        emit('debug', players_info)
         emit('connected', {
             "gameId":game_id,
             "board":game.board,
-            "username":f'{username}'
+            # "player": username
+            # "username":f'{username}'
             })
+        emit('join', players_info, to=game_id)
+        #emit 'join' this will contain username and emit to the whole room
+
+# we want to send to each client on each player's join an emit with
+# {
+#   "gameId",
+#   "board",
+#   "player_info": {all the usernames}
+# }
+
+
 
     else:
         game = BoggleGame()
-        emit("debug", "First user of room")
-        games[game_id] = {"game":game, "players":{f'{username}':player}}
+        emit("debug", f"First User game_id:{game_id} username:{username}")
+        games[game_id] = {"game":game, "players":{username:player}}
+        # print('--------------------------------',games,'--------------------------------')
      #   emit("debug", games)
         emit('connected', {
             "gameId":game_id,
             "board":game.board,
-            "username":f'{username}'
+            # "player": {"username": player.username, "score": player.score}
+            # "username":f'{username}'
             })
+        emit('join', username, to=game_id)
 
 """
 Games Object (games in existence) =
 {
     gameId1: {
-        players: [player1(obj), player2, player3, player4], (some type of data set)
+        players: {player1(obj), player2, player3, player4}, (some type of data set)
         game: game (instance of game class)
     },
     gameId2: {
@@ -216,3 +236,10 @@ Player Object =
     - addScore
 }
 """
+
+def all_player_serialize(players):
+    """ Takes in an object of players and returns their username and score
+    in a format that can be JSONed"""
+
+    player_info = [player for player in players]
+    return player_info

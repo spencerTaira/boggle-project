@@ -21,11 +21,15 @@ class Player():
 
     def __init__(self,username, room):
         self.played_words = set()
-        self.username = username    
+        self.username = username
         self.score = 0
         self.room = room
 
-    # def __repr__():
+    def __repr__(self):
+        return {
+            "username": self.username,
+            "score": self.score,
+        }
 
     def is_word_not_a_dup(self, word):
         """Return True/False if a word has not already been played."""
@@ -34,3 +38,9 @@ class Player():
 
     def add_score(points):
         self.score += score
+
+    def serialize(self):
+        return {
+            "username": self.username,
+            "score": self.score
+        }
