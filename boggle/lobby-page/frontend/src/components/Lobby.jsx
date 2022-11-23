@@ -4,6 +4,7 @@ import { socket } from "../socket";
 import ChatBox from "./ChatBox";
 import PlayersList from "./PlayersList";
 import { getLobby, leaveLobby } from "../helpers";
+import { useParams } from "react-router-dom";
 
 /**
  * Lobby
@@ -27,6 +28,7 @@ function Lobby() {
     { username: "u2", id: "2", isReady: true, isLeader: false },
   ]); // TODO: fix this
   const [lobby, setLobby] = useState(getLobby);
+  const [id, setId] = useState(useParams().id);
 
   useEffect(() => {
     // TODO: socket stuff, get the players/chats from the lobby
@@ -51,7 +53,7 @@ function Lobby() {
 
   /**Change the player's status. */
   function changeReadyStatus(id) {
-    // TODO: socket stuff, change player's ready statuss
+    // TODO: socket stuff, change player's ready status
   }
 
   /**Send a chat mesage. */

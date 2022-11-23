@@ -1,3 +1,4 @@
+import "./ChatForm.css";
 /**
  * ChatForm
  *

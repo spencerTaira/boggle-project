@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./ChatBox.css";
 import Chat from "./Chat";
 import ChatForm from "./ChatForm";
 
