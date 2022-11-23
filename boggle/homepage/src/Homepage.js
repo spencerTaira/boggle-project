@@ -6,6 +6,7 @@ import Rooms from "./Rooms.js";
 import axios from 'axios';
 // import { ReactSession } from 'react-client-session';
 import { makeid } from "./utils.js";
+import "./Homepage.css"
 
 
 const BASE_URL = "http://localhost:5000/";
@@ -130,10 +131,10 @@ function Homepage() {
 
   return(
     <div className="Homepage">
-      <h1>Boggle</h1>
+      <h1 className="Homepage-title">Boggle</h1>
 
       { isUser ?
-      <div className="buttons">
+      <div className="Homepage-buttons">
         <Button click={selectForm} label="Create Room" type="create"/>
         <Button click={selectForm} label="Join Room" type="join"/>
       </div>
