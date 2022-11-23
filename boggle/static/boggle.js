@@ -91,7 +91,7 @@ function displayBoard(board) {
 
 function handleGuessResult(data) {
 
-  const {word, result, gameScore} = data;
+  const {word, result, playerScore} = data;
 
   if (result === "already-played") {
     showMessage(`Already played: ${word}`, "err");
@@ -101,7 +101,7 @@ function handleGuessResult(data) {
     showMessage(`Not on board: ${word}`, "err");
   } else {
     showWord(word);
-    showScore(gameScore);
+    showScore(playerScore);
     showMessage(`Added: ${word}`, "ok");
   }
 }

@@ -96,8 +96,8 @@ class BoggleGame():
             len(word), self.max_word_length_score)
 
 # MOVE TO WS VIEW FUNCTION (Call USER CLASS to add word and score)
-        self.played_words.add(word)
-        self.score += word_score
+        # self.played_words.add(word)
+        # self.score += word_score
 
         return word_score
 

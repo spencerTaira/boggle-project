@@ -21,7 +21,7 @@ games = {}
 def homepage(room_name):
     """Show board."""
     session["room_name"] = room_name
-    
+
     ##############!!!!!!!!!!!!!!!!!!Make this real later!!!!
     session["username"] = uuid4()
 
@@ -47,25 +47,25 @@ def test_connect():
     username = session["username"]
     print("What is username???????", username)
     player = Player(username, game_id)
-    
+
     #emit('debug',games)
     if game_id in games:
         game = games[game_id]["game"]
         if username not in games[game_id]["players"]:
             games[game_id]["players"][username] = player
         emit('connected', {
-            "gameId":game_id, 
+            "gameId":game_id,
             "board":game.board,
             "username":f'{username}'
             })
 
-    else:    
+    else:
         game = BoggleGame()
         emit("debug", "First user of room")
         games[game_id] = {"game":game, "players":{f'{username}':player}}
      #   emit("debug", games)
         emit('connected', {
-            "gameId":game_id, 
+            "gameId":game_id,
             "board":game.board,
             "username":f'{username}'
             })
@@ -97,20 +97,24 @@ def score_word(data):
 
     word = data["word"].upper()
     game_id = data["gameId"]
-    game = games[game_id]
+    game = games[game_id]["game"]
+    username = session["username"]
+    player = games[game_id]["players"][username]
 
-    if not game.is_word_not_a_dup(word):
-        emit('guess_result', {"word":word, "result": "already-played", "score":0, "gameScore":game.score})
+    if not player.is_word_not_a_dup(word):
+        emit('guess_result', {"word":word, "result": "already-played", "score":0, "playerScore":player.score})
 
     elif not game.is_word_in_word_list(word):
-        emit('guess_result', {"word":word,"result": "not-word", "score":0, "gameScore":game.score})
+        emit('guess_result', {"word":word,"result": "not-word", "score":0, "playerScore":player.score})
 
     elif not game.check_word_on_board(word):
-        emit('guess_result', {"word":word,"result": "not-on-board", "score":0, "gameScore":game.score})
+        emit('guess_result', {"word":word,"result": "not-on-board", "score":0, "playerScore":player.score})
 
     else:
         score = game.play_and_score_word(word)
-        emit('guess_result', {"word":word,"result": "ok", "score":score, "gameScore":game.score})
+        player.played_words.add(word)
+        player.score += score
+        emit('guess_result', {"word":word,"result": "ok", "score":score, "playerScore":player.score})
 
 
 # @app.post("/api/score-word")
