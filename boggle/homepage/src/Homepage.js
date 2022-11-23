@@ -131,23 +131,26 @@ function Homepage() {
 
   return(
     <div className="Homepage">
-      <h1 className="Homepage-title">Boggle</h1>
+      <div className="Homepage-wrapper">
+        <h1 className="Homepage-title">Boggle</h1>
 
-      { isUser ?
-      <div className="Homepage-buttons">
-        <Button click={selectForm} label="Create Room" type="create"/>
-        <Button click={selectForm} label="Join Room" type="join"/>
+        { isUser ?
+        <div className="Homepage-buttons">
+          <Button click={selectForm} label="Create Room" type="create"/>
+          <Button click={selectForm} label="Join Room" type="join"/>
+        </div>
+        : <UsernameForm addUser={addUser} /> }
+        { form.name ? <SelectedForm type={form.name} fn={form.fn} /> : null }
+        { rooms.rooms === undefined
+            ? null
+            : (
+              rooms.rooms.map((room,i) => (
+              <p className="Homepage-rooms" key={i}>{room.roomName} {room.id}</p>
+              // TODO: Change to 'a' tag with href
+              ))
+            )
+        }
       </div>
-      : <UsernameForm addUser={addUser} /> }
-      { form.name ? <SelectedForm type={form.name} fn={form.fn} /> : null }
-      { rooms.rooms === undefined
-          ? null
-          : (
-            rooms.rooms.map((room,i) => (
-            <p key={i}>{room.roomName} {room.id}</p> // TODO: Change to 'a' tag with href
-            ))
-          )
-      }
     </div>
   );
 }

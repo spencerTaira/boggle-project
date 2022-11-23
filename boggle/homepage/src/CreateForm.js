@@ -37,7 +37,7 @@ function CreateForm({ initialFormData=defaultFormData , addRoom }) {
   }
 
   return (
-    <form className="CreateForm">
+    <form className="CreateForm form">
       <h3>Create Room</h3>
       <div>
         <label htmlFor="CreateForm-room-name">Room Name:</label>

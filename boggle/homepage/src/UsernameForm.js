@@ -5,15 +5,15 @@ const defaultFormData = {
   username: "",
 }
 
-/** Form for creating username 
- * 
+/** Form for creating username
+ *
  * Props
- *  - initialFormData (Default: defaultFormData) 
+ *  - initialFormData (Default: defaultFormData)
  *  - addUser: fn to call in parent
- * 
+ *
  * States
  *  - formData: like { username }
- * 
+ *
  * Homepage -> UsernameForm -> Button
  */
 
@@ -32,7 +32,7 @@ function UsernameForm({addUser, initialFormData=defaultFormData}){
 
     function handleSubmit(evt) {
         evt.preventDefault();
-        if(!(formData.username === "")){   
+        if(!(formData.username === "")){
             addUser(formData);
             setFormData(initialFormData);
         }
@@ -43,11 +43,11 @@ function UsernameForm({addUser, initialFormData=defaultFormData}){
 
 
     return (
-        <form className="Username">
+        <form className="Username form">
         <h3>Username</h3>
         <div>
             <label htmlFor="CreateUser">Username:</label>
-            <input 
+            <input
                 type="text"
                 id="CreateUser"
                 className="form-control"

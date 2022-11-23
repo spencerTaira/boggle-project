@@ -36,7 +36,7 @@ function JoinForm({ initialFormData=defaultFormData , joinRoom }) {
   }
 
   return (
-    <form className="JoinForm">
+    <form className="JoinForm form">
       <h3>Join Room</h3>
       <div>
         <label htmlFor="JoinForm-room-code">Room Code:</label>

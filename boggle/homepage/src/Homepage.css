@@ -1,3 +1,45 @@
-.Homepage-title {
+.Homepage-wrapper {
+  width: 800px;
+  margin: 0 auto;
+}
 
+.Homepage-title {
+  font-size: 50px;
+  font-family: Roboto;
+}
+
+.Homepage-rooms {
+  border: 1px solid black;
+  padding: 15px;
+  font-size: 20px;
+  background-color: rgb(229,155,139);
+  border-radius: 10px;
+  font-weight: 500;
+  font-family: Georgia
+}
+
+.Button {
+  background-color: rgb(183,172,165);
+  border-radius: 20px;
+  margin: 20px;
+  padding: 10px;
+  font-size: 15px;
+  font-family: Georgia
+}
+
+.form>h3 {
+  font-family: Cambria;
+}
+
+.form>div>label {
+  padding-right: 5px;
+  font-size: 18px;
+  font-weight: 500;
+  font-family: Georgia;
+}
+
+.form>div>input {
+  background-color: rgb(191, 196, 199);
+  border-radius: 5px;
+  height: 20px;
 }
