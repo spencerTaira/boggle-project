@@ -6,6 +6,9 @@ import UsernameForm from "./UsernameForm.js";
 import Rooms from "./Rooms.js";
 import axios from 'axios';
 
+
+const BASE_URL = "http://localhost:5000/";
+
 /** Smart component rendering the homepage
  *
  *  Props:
@@ -34,70 +37,80 @@ function Homepage() {
 
   /** Identify which button was selected. Create or Join */
   function selectForm(evt) {
-    console.log(evt.target.classList.value);
+    // console.log(evt.target.classList.value);
     const buttonClasses = evt.target.classList.value;
 
     if(buttonClasses.includes("create")) {
       setForm({
         name: "create",
-        fn: addRoom
+        fn: AddRoom
       });
     }
 
     else {
       setForm({
         name: "join",
-        fn: joinRoom
+        fn: JoinRoom
       });
     }
   }
 
-  // function TestConnect(){
+  // function AxiosTest(){
   //   useEffect(() => {
-  //     fetch("/homepage").then(
-  //       res => res.json()
-  //     ).then(
-  //       data => {
-  //         setTestData(data)
-  //         console.log(data, "<<< from backend");
-  //       }
-  //     )
-  //   }, [])
+  //     axios.get("/homepage")
+  //       .then(
+  //           res => {
+  //             console.log(res, "<<<<<<<<< res")
+  //             setTestData(res.data)
+  //             console.log(res.data, "<<< from backend");
+  //         }
+  //       )
+  //   }, [] );
   // }
-  // TestConnect();
 
-  function AxiosTest(){
-    useEffect(() => {
-      axios.get("/homepage")
-        .then(
-            res => {
-              console.log(res, "<<<<<<<<< res")
-              setTestData(res.data)
-              console.log(res.data, "<<< from backend");
-          }
-        )
-    }, [] );
-  }
+  // AxiosTest();
 
-  AxiosTest();
 
 
   /** Add Room Function */
-  function addRoom(room){
+  async function AddRoom(room){
     const newRoom = {...room, id: uuid()};
-    setRooms(rooms => [...rooms, newRoom]);
+    // setRooms(rooms => [...rooms, newRoom]);
+    console.log(room, "<<<<<<<<< room in addRoom");
 
-    useEffect(() => {
-      axios.post("/test")
-    })
+    // useEffect(() => {
+    //   console.log("use Effect", room)
+    // }, [] );
+
+    let testing = await axios
+      .post(`/test`, testData)
+      .then((res) => {
+        console.log(res, "<<<<<<< in AddRoom");
+        return res
+      });
+
+    console.log(testing, "<<<<< seeing axios")
+
+    // useEffect(() => {
+      
+    //   axios.post(
+    //         "/test",
+    //         testData)
+    //     .then(
+    //       res => {
+    //         console.log(res, "<<<<<<<<<< in Homepage Add Room");
+    //         setTestData(res.data);
+    //       }
+    //   )
+    // }, [] )
     //Make axios call to backend. Make query to update rooms table.
     //Take us to lobby
     //store roomName in session
-    joinRoom(room);
+    // JoinRoom(room);
   }
 
   /** Add Room Function */
-  function joinRoom(room){
+  function JoinRoom(room){
     console.log("Joined Room!!", room);
     //on backend,
     //Make axios call and check if room exists

@@ -16,8 +16,8 @@ def displayRooms():
 # POST: add room
 @app.post("/<room_name>")
 def addRoom(room_name):
-    room_name = "test"
-    return {}
+    print(room_name, "<<<<<<<< in backend addRoom route")
+    return {"addRoom": "backend"}
 
 
 
