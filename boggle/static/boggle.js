@@ -32,7 +32,7 @@ function start(data) {
   console.debug("start", data);
   lobbyId = data.lobbyId;
   let board = data.board;
-
+  $form.show();
   displayBoard(board);
   // secondsLeftInGame = GAME_LENGTH_SECS;
   // showTimer(secondsLeftInGame);

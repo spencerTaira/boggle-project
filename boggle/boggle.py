@@ -68,21 +68,12 @@ class BoggleGame():
         self.board_size = board_size
         self.word_length_scores = word_length_scores
         self.max_word_length_score = max_word_length_score
-
-        self.board = self.get_random_board(fill_letters)
-
+        self.fill_letters = fill_letters
+        self.board = self.get_random_board(self.fill_letters)
         self.game_length = 15 #initial length of game
         self.game_expire = self.game_length
         self.timer = setInterval(1,self.countdown)
         self.room = room
-
-    def countdown(self):
-        self.game_expire -= 1
-        socketio.emit('debug', self.game_expire, to=self.room)
-        socketio.emit('countdown', self.game_expire, to=self.room)
-        if self.game_expire == 0:
-            self.timer.cancel()
-            socketio.emit('endgame', 'true', to=self.room)
 
     def __repr__(self):
         board_text = ".".join(["".join(row) for row in self.board])
@@ -106,18 +97,26 @@ class BoggleGame():
 
         word_score = self.word_length_scores.get(
             len(word), self.max_word_length_score)
-
-# MOVE TO WS VIEW FUNCTION (Call USER CLASS to add word and score)
-        # self.played_words.add(word)
-        # self.score += word_score
-
         return word_score
 
-# USER CLASS
-    def is_word_not_a_dup(self, word):
-        """Return True/False if a word has not already been played."""
+    def countdown(self):
+        """Decrements game_expire by 1, emits game_expire to room,
+        checks if game_expire is 0 and if so cancels timer and emits
+        end game message to room"""
 
-        return word not in self.played_words
+        self.game_expire -= 1
+        socketio.emit('debug', self.game_expire, to=self.room)
+        socketio.emit('countdown', self.game_expire, to=self.room)
+        if self.game_expire == 0:
+            self.timer.cancel()
+            socketio.emit('endgame', 'true', to=self.room)
+
+    def reset(self):
+        """ Reset game_expire and get a new board"""
+        self.game_expire = self.game_length
+        self.timer = setInterval(1, self.countdown)
+        self.board = self.get_random_board(self.fill_letters)
+
 
     def is_word_in_word_list(self, word):
         """Return True/False if the word is in our word list."""

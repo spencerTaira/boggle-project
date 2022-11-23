@@ -124,12 +124,19 @@ def score_word():
     if check_if_winner(username, lobby_id):
         emit('debug', 'winner')
         emit('game-result', f"Congrats {username}!!! You are the winner!!!")
+        game = games[lobby_id]["game"]
+        game.reset()
+        emit('connected', {
+                "lobbyId":lobby_id,
+                "board":game.board,
+                }, to=lobby_id)
     else:
         emit('debug', 'loser')
         emit(
             'game-result',
             f"Congrats {username}!!! You have earned yourself additional study hall!!!"
         )
+
 
 
 
