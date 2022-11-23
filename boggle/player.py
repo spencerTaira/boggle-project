@@ -44,3 +44,7 @@ class Player():
             "username": self.username,
             "score": self.score
         }
+    
+    def reset(self):
+        self.played_words = set()
+        self.score = 0

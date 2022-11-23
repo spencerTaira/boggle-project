@@ -11,7 +11,7 @@ const $scoreboard = $("#scoreboard");
 
 const GAME_LENGTH_SECS = 60;
 
-let gameId;
+let lobbyId;
 let secondsLeftInGame;
 
 
@@ -29,7 +29,7 @@ let secondsLeftInGame;
 
 function start(data) {
   console.debug("start", data);
-  gameId = data.gameId;
+  lobbyId = data.lobbyId;
   let board = data.board;
 
   displayBoard(board);
@@ -37,11 +37,13 @@ function start(data) {
   showTimer(secondsLeftInGame);
 }
 
-function updatePlayers(usernames) {
-  console.debug("updatePlayers", usernames);
+function updatePlayers(playersData) {
+  console.debug("updatePlayers", playersData);
   $scoreboard.empty();
-  for (const username of usernames) {
-    $scoreboard.append(`<p>${username}: ${0}</p>`)
+  for (const playerData of playersData) {
+    $scoreboard.append(
+      `<p>Name: ${playerData.player_id} Score: ${playerData.score}</p>`
+      );
   }
 }
 /** Display usernames and scores */
@@ -59,46 +61,6 @@ function displayBoard(board) {
     $table.append($tr);
   }
 }
-
-/** Handle form submit: submit to API, focus on input. */
-
-// async function handleFormSubmit(evt) {
-//   evt.preventDefault();
-
-//   const word = $wordInput.val().toUpperCase();
-//   if (!word) return;
-
-//   await submitWordToAPI(word);
-
-//   $wordInput.val("").focus();
-// }
-
-
-
-
-/** Submit word to API and handle response. */
-
-// async function submitWordToAPI(word) {
-//   const response = await axios({
-//     url: "/api/score-word",
-//     method: "POST",
-//     data: { word, gameId }
-//   });
-
-//   const {result, gameScore} = response.data;
-
-//   if (result === "already-played") {
-//     showMessage(`Already played: ${word}`, "err");
-//   } else if (result === "not-word") {
-//     showMessage(`Not valid word: ${word}`, "err");
-//   } else if (result === "not-on-board") {
-//     showMessage(`Not on board: ${word}`, "err");
-//   } else {
-//     showWord(word);
-//     showScore(gameScore);
-//     showMessage(`Added: ${word}`, "ok");
-//   }
-// }
 
 function handleGuessResult(data) {
 

@@ -3,34 +3,29 @@ var socket = io();
 
 const urlParts = document.URL.split("/");
 const roomName = urlParts[urlParts.length - 1];
-//const name = prompt("Username? (no spaces)");
-
-// const $form = $("#newWordForm");
-// const $wordInput = $("#wordInput");
-// const $BUTTON = $("#test-form-button");
-// const $FORM_INPUT = $("#text-to-send");
-// const $INCOMING = $("#recieved");
-
 
 socket.on('connected', start);
 socket.on('join', updatePlayers);
 socket.on('debug', (data) => console.log('debug', data));
+socket.on('update_scores', updatePlayers);
 
 //socket.on('end_game')
 
 socket.on('guess_result', handleGuessResult);
+
+
+$form.on("submit", handleFormSubmit);
 function handleFormSubmit(evt) {
     evt.preventDefault();
 
     const word = $wordInput.val().toUpperCase();
     if (!word) return;
 
-    socket.emit('guess', {'gameId': gameId, 'word':word});
+    socket.emit('guess', {'lobbyId': lobbyId, 'word':word});
 
     $wordInput.val("").focus();
   }
 
-$form.on("submit", handleFormSubmit);
 
 /** Handle end of game */
 
