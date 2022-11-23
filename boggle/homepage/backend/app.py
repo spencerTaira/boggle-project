@@ -10,10 +10,23 @@ import json
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "secret"
 
-rooms = [ {"name": "Room1", "id" : "1234"},
-          {"name": "Room2", "id" : "567"},
-          {"name": "Room3", "id" : "890"} ] 
+rooms = { "rooms": [
+  {"roomName": "Room1", "id" : "1234"},
+  {"roomName": "Room2", "id" : "567"},
+  {"roomName": "Room3", "id" : "890"}
+]}
 
+games = {
+  "lobbyId1": {
+    "users": {"user1", "user2"}, "game": "<instance>"
+  },
+
+  "lobbyId2": {
+    "users": {"user3", "user4"}, "game": "<instance>"
+  },
+}
+
+#RoomId same as gameId
 
 ################ Homepage route ##########################
 
@@ -26,9 +39,9 @@ def displayRooms():
 @app.post("/addRoom/<room_name>")
 def addRoom(room_name):
 
-    rooms.append(json.loads(request.data))
+    rooms["rooms"].append(json.loads(request.data))
     print(type(json.loads(request.data)), "<<<< request")
-    print(rooms[3]["roomName"], "<<<<<<< check rooms")
+    print(rooms["rooms"][3]["roomName"], "<<<<<<< check rooms")
     # add room to displayRooms obj
     # get session data for username
 
@@ -40,6 +53,10 @@ def addRoom(room_name):
 
 @app.get("/joinRoom/<room_name>")
 def joinRoom(room_name):
+    session["username"] = request.headers["Username"]
+    session["room_name"] = room_name
+    print(request.headers, "<<<<<<<<<<<<<<< request headers")
+    print(request.headers["Username"], "<<<<<<<<<<< request headers Username")
     return redirect("/lobby")
 
 
