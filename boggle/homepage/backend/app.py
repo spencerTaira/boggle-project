@@ -10,11 +10,7 @@ import json
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "secret"
 
-rooms = { "rooms": [
-  {"roomName": "Room1", "id" : "1234"},
-  {"roomName": "Room2", "id" : "567"},
-  {"roomName": "Room3", "id" : "890"}
-]}
+rooms = { "rooms": []}
 
 games = {
   "lobbyId1": {
@@ -41,7 +37,6 @@ def addRoom(room_name):
 
     rooms["rooms"].append(json.loads(request.data))
     print(type(json.loads(request.data)), "<<<< request")
-    print(rooms["rooms"][3]["roomName"], "<<<<<<< check rooms")
     # add room to displayRooms obj
     # get session data for username
 
@@ -57,8 +52,12 @@ def joinRoom(room_name):
     session["room_name"] = room_name
     print(request.headers, "<<<<<<<<<<<<<<< request headers")
     print(request.headers["Username"], "<<<<<<<<<<< request headers Username")
-    return redirect("/lobby")
+    return redirect(f"/room/{room_name}")
 
+@app.get('/room/<room>')
+def index(room):
+    print("I AM HERE!!!!!!!!!!!!!!!!!!!!")
+    return render_template('index.html')
 
 if __name__ == "__main__":
     app.run()
