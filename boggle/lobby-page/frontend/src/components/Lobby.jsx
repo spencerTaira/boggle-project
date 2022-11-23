@@ -59,6 +59,7 @@ function Lobby() {
   /**Send a chat mesage. */
   function sendChatMessage(msg) {
     // TODO: socket stuff, send the message
+    socket.emit("hello", "world"); //testChrisChen
   }
 
   return (

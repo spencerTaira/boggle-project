@@ -17,6 +17,17 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "this-is-secret"
 socketio = SocketIO(app)
 
+# const io = require("socket.io")(httpServer, {
+#   cors: {
+#     origin: "https://example.com",
+#     methods: ["GET", "POST"],
+#     allowedHeaders: ["my-custom-header"],
+#     credentials: true
+#   }
+# });
+
+# look into CORS as security issue? vulnerability?
+
 ########################## HTML ROUTES #####################################
 
 @app.get('/')
@@ -58,6 +69,13 @@ def receive_msg(data):
 def receive_test(test):
     print(test)
     emit('message received', f"{test} message received", broadcast=True)
+
+@socketio.on('hello')
+def test_connect(msg):
+    emit('connected', "we have connected")
+    print('receive, test, chrischen')
+    print('test msg', msg)
+
 
 
 
