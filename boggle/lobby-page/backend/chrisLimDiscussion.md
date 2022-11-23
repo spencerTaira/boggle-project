@@ -9,3 +9,9 @@ hopefully we can handle JSON to attach meta data.
         'username': 'chris123',
         'room': 'WVAS'
     }
+
+
+types of data:
+    - 'join'
+    - 'chat'
+    - 'ready'

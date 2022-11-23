@@ -18,4 +18,4 @@ emit is a library function
     starts with type string
     second arg is the payload. string or JSON!
     third arg is options
-        to=, broadcast=, etc
+        to="room?", broadcast=true, etc
