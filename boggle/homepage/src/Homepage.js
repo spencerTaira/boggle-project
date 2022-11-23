@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Button from "./Button.js";
 import SelectedForm from "./SelectedForm.js";
-import { v4 as uuid } from "uuid";
 import UsernameForm from "./UsernameForm.js";
 import Rooms from "./Rooms.js";
 import axios from 'axios';
+// import { ReactSession } from 'react-client-session';
+import { makeid } from "./utils.js";
 
 
 const BASE_URL = "http://localhost:5000/";
@@ -28,12 +29,12 @@ const BASE_URL = "http://localhost:5000/";
 function Homepage() {
   const [form, setForm] = useState({name: "", fn: null});
   const [isUser, setIsUser] = useState(false);
-  const [rooms, setRooms] = useState([]);
+  // const [rooms, setRooms] = useState([]);
   const [user, setUser] = useState(null);
-  const [testData, setTestData] = useState([{}]);
+  const [rooms, setRooms] = useState([{}]);
 
-  console.log("Homepage", form, isUser, rooms, "<ROOM",user);
-  console.log(testData, "<<<<<<<<<< test Data")
+  console.log("Homepage", form, isUser,user);
+  console.log(rooms, "<<<<<<<<<< rooms")
 
   /** Identify which button was selected. Create or Join */
   function selectForm(evt) {
@@ -43,42 +44,38 @@ function Homepage() {
     if(buttonClasses.includes("create")) {
       setForm({
         name: "create",
-        fn: AddRoom
+        fn: addRoom
       });
     }
 
     else {
       setForm({
         name: "join",
-        fn: JoinRoom
+        fn: joinRoom
       });
     }
   }
 
-  // function AxiosTest(){
-  //   useEffect(() => {
-  //     axios.get("/homepage")
-  //       .then(
-  //           res => {
-  //             console.log(res, "<<<<<<<<< res")
-  //             setTestData(res.data)
-  //             console.log(res.data, "<<< from backend");
-  //         }
-  //       )
-  //   }, [] );
-  // }
 
-  // AxiosTest();
+  useEffect(() => {
+      axios.get("/homepage")
+        .then(
+            res => {
+              console.log(res, "<<<<<<<<< res")
+              setRooms(res.data)
+              console.log(res.data, "<<< from backend");
+          }
+        )
+    }, [] );
+
 
 
 
   /** Add Room Function */
-  async function AddRoom(room){
-    const newRoom = {...room, id: uuid()};
-    setRooms(rooms => [...rooms, newRoom]);
+  async function addRoom(room){
+    const newRoom = {...room, id: makeid(6)};
+    // setRooms(rooms => [...rooms, newRoom]);
     console.log(newRoom, "<<<<<<<<< room in addRoom");
-
-    //
 
     let testing = await axios
       .post(`/addRoom/${room.roomName}`, newRoom)
@@ -87,7 +84,7 @@ function Homepage() {
       });
 
     console.log(testing, "<<<<< seeing axios")
-    
+
     //   axios.post(
     //         "/test",
     //         testData)
@@ -101,12 +98,20 @@ function Homepage() {
     //Make axios call to backend. Add room. Go to lobby.
     //Take us to lobby
     //store roomName in session
-    // JoinRoom(room);
+    await joinRoom(room);
   }
 
   /** Add Room Function */
-  function JoinRoom(room){
+  async function joinRoom(room){
     console.log("Joined Room!!", room);
+
+    let joinTest = await axios
+      .get(`/joinRoom/${room.roomName}`, {headers: {username: user.username}})
+      .then(res => {
+        console.log(res.data);
+      });
+
+    console.log(joinTest, "<<<<< test joinRoom")
     //on backend,
     //Make axios call and check if room exists
     //if it does, enter lobby. make get request to render the lobby html
@@ -134,12 +139,11 @@ function Homepage() {
       </div>
       : <UsernameForm addUser={addUser} /> }
       { form.name ? <SelectedForm type={form.name} fn={form.fn} /> : null }
-      <Rooms rooms={rooms}/>
-      { testData.rooms === undefined
+      { rooms.rooms === undefined
           ? null
           : (
-            testData.rooms.map((room,i) => (
-            <p key={i}>{room.name} {room.id}</p>
+            rooms.rooms.map((room,i) => (
+            <p key={i}>{room.roomName} {room.id}</p> // TODO: Change to 'a' tag with href
             ))
           )
       }
@@ -148,5 +152,3 @@ function Homepage() {
 }
 
 export default Homepage;
-
-//TODO: show rooms that are in db (exists)
