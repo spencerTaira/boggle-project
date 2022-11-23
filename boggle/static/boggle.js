@@ -113,17 +113,17 @@ function showTimer(secs) {
 
 /** "Tick" timer every second. */
 
-async function tick() {
-  secondsLeftInGame -= 1;
-  this.showTimer(secondsLeftInGame);
+// async function tick() {
+//   secondsLeftInGame -= 1;
+//   this.showTimer(secondsLeftInGame);
 
-  if (secondsLeftInGame === 0) {
-    clearInterval(timerId);
-    await endGame();
-  }
-}
+//   if (secondsLeftInGame === 0) {
+//     clearInterval(timerId);
+//     await endGame();
+//   }
+// }
 
-let timerId = setInterval(tick, 1000);
+// let timerId = setInterval(tick, 1000);
 
 
 /** Handle end of game */

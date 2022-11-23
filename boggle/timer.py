@@ -1,11 +1,5 @@
 import time, threading
 
-StartTime=time.time()
-
-def action() :
-    print('action ! -> time : {:.1f}s'.format(time.time()-StartTime))
-
-
 class setInterval :
     def __init__(self,interval,action) :
         self.interval=interval
@@ -23,23 +17,3 @@ class setInterval :
     def cancel(self) :
         self.stopEvent.set()
 
-# start action every 0.6s
-inter=setInterval(0.6,action)
-print('just after setInterval -> time : {:.1f}s'.format(time.time()-StartTime))
-
-# will stop interval in 5s
-t=threading.Timer(5,inter.cancel)
-t.start()
-
-
-# def countdown():
-#   emit("timer", {remaining time})
-
-# timer = setInterval(1, countdown)
-
-# t=threading.Timer(60,endgame)
-# t.start()
-
-# def endgame():
-#   timer.cancel()
-#   emit("endgame", {datastuffhere})

@@ -2,6 +2,9 @@
 
 from random import choice
 from wordlist import english_words
+from timer import setInterval
+import time
+from app import socketio
 
 DEFAULT_LETTERS_BY_FREQ = (
         "EEEEEEEEEAAAAAAAOOOOOOIIIIUUU" +  # super-common
@@ -14,6 +17,7 @@ class BoggleGame():
     """A game for Boggle, where it can find words on the board."""
 
     def __init__(self,
+                 room,
                  word_list=english_words,
                  board_size=5,
                  fill_letters=DEFAULT_LETTERS_BY_FREQ,
@@ -66,11 +70,19 @@ class BoggleGame():
         self.max_word_length_score = max_word_length_score
 
         self.board = self.get_random_board(fill_letters)
+        
+        self.game_length = 60 #initial length of game
+        self.game_expire = self.game_length
+        self.timer = setInterval(1,self.countdown)
+        self.room = room
 
-        #Move to USER
-        self.played_words = set()
-        self.score = 0
-        #Move above to USER
+    def countdown(self):
+        print("countdown value>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", time.time())
+        self.game_expire -= 1
+        socketio.emit('debug', self.game_expire, to=self.room)
+        socketio.emit('countdown', self.game_expire, to=self.room)
+        if self.game_expire == 0:
+            self.timer.cancel()
 
     def __repr__(self):
         board_text = ".".join(["".join(row) for row in self.board])
