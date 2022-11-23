@@ -33,8 +33,8 @@ function start(data) {
   let board = data.board;
 
   displayBoard(board);
-  secondsLeftInGame = GAME_LENGTH_SECS;
-  showTimer(secondsLeftInGame);
+  // secondsLeftInGame = GAME_LENGTH_SECS;
+  // showTimer(secondsLeftInGame);
 }
 
 function updatePlayers(playersData) {
@@ -128,19 +128,23 @@ function showTimer(secs) {
 
 /** Handle end of game */
 
-async function endGame() {
+// async function endGame() {
+//   $form.hide();
+
+//   const response = await axios({
+//     url: "/api/end-game",
+//     method: "POST",
+//     data: {gameId},
+//   });
+
+//   const { gameScore, highScore, numPlays } = response.data;
+
+//   showMessage(
+//       `Final score: ${gameScore} /
+//             High score: ${highScore} /
+//             Num plays: ${numPlays}`);
+// }
+
+function endGame(){
   $form.hide();
-
-  const response = await axios({
-    url: "/api/end-game",
-    method: "POST",
-    data: {gameId},
-  });
-
-  const { gameScore, highScore, numPlays } = response.data;
-
-  showMessage(
-      `Final score: ${gameScore} /
-            High score: ${highScore} /
-            Num plays: ${numPlays}`);
 }

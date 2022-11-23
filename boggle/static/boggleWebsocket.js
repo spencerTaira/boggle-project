@@ -9,6 +9,7 @@ socket.on('join', updatePlayers);
 socket.on('debug', (data) => console.log('debug', data));
 socket.on('update_scores', updatePlayers);
 socket.on('countdown', showTimer);
+socket.on('endgame', endGame)
 //socket.on('end_game')
 
 socket.on('guess_result', handleGuessResult);

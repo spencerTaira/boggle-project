@@ -71,18 +71,18 @@ class BoggleGame():
 
         self.board = self.get_random_board(fill_letters)
         
-        self.game_length = 60 #initial length of game
+        self.game_length = 15 #initial length of game
         self.game_expire = self.game_length
         self.timer = setInterval(1,self.countdown)
         self.room = room
 
     def countdown(self):
-        print("countdown value>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", time.time())
         self.game_expire -= 1
         socketio.emit('debug', self.game_expire, to=self.room)
         socketio.emit('countdown', self.game_expire, to=self.room)
         if self.game_expire == 0:
             self.timer.cancel()
+            socketio.emit('endgame', 'true', to=self.room)
 
     def __repr__(self):
         board_text = ".".join(["".join(row) for row in self.board])
