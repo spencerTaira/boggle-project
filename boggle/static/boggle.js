@@ -8,6 +8,7 @@ const $timer = $("#timer");
 const $message = $(".msg");
 const $table = $("table");
 const $scoreboard = $("#scoreboard");
+const $gameResults = $("#game-results");
 
 const GAME_LENGTH_SECS = 60;
 
@@ -110,6 +111,10 @@ function showTimer(secs) {
   $timer.text(secs);
 }
 
+function showGameResults(msg) {
+  $gameResults.empty();
+  $gameResults.append(msg);
+}
 
 /** "Tick" timer every second. */
 

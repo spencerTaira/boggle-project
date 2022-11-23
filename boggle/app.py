@@ -49,16 +49,16 @@ def homepage(room_name):
 # 'connect' is magic, automatically sent from client on connection
 @socketio.on('connect')
 def game_connect():
-    
+
     lobby_id = session["room_name"]
     username = session["username"]
-    
+
     join_room(lobby_id)
-    
+
     player = Player(username, lobby_id)
-    
+
     if (lobby_id in games):
-        
+
         game = games[lobby_id]["game"]
         if username not in games[lobby_id]["players"]:
             games[lobby_id]["players"][username] = player
@@ -66,7 +66,7 @@ def game_connect():
     else:
         game = BoggleGame(room=lobby_id)
         games[lobby_id] = {"game":game, "players":{username:player}}
-     
+
     emit('connected', {
             "lobbyId":lobby_id,
             "board":game.board,
@@ -84,9 +84,9 @@ def score_word(data):
        score,
        gameScore}
     """
-    
+
     username = session["username"]
-    
+
     lobby_id = data["lobbyId"]
     word = data["word"].upper()
 
@@ -107,7 +107,7 @@ def score_word(data):
         player.played_words.add(word)
         player.score += score
         emit('guess_result', {"word":word,"result": "ok", "score":score, "playerScore":player.score})
-        
+
         players_info = all_player_serialize(games[lobby_id]["players"])
         emit('debug', players_info)
         emit('update_scores', players_info, to=lobby_id)
@@ -116,23 +116,40 @@ def score_word(data):
 
 #CHANGE TO WS and wait for a KEYWORD like "end-game" (Don't forget about TIES)
 
-@app.post("/api/end-game")
-def end_game():
-    """Handle end of game:
+@socketio.on('finished-game')
+def score_word():
+    lobby_id = session["room_name"]
+    username = session["username"]
 
-    - remove board from list of boards
-    - return JSON {score, numPlays, highScore}
-    """
+    if check_if_winner(username, lobby_id):
+        emit('debug', 'winner')
+        emit('game-result', f"Congrats {username}!!! You are the winner!!!")
+    else:
+        emit('debug', 'loser')
+        emit(
+            'game-result',
+            f"Congrats {username}!!! You have earned yourself additional study hall!!!"
+        )
 
-    lobby_id = request.json["gameId"]
-    game = games[lobby_id]
 
-#Don't really need?
-    num_plays = session.get(SESS_NUM_PLAYS_KEY, 0)
-    high_score = session.get(SESS_HIGH_SCORE_KEY, 0)
 
-    session[SESS_NUM_PLAYS_KEY] = num_plays = num_plays + 1
-    session[SESS_HIGH_SCORE_KEY] = high_score = max(game.score, high_score)
+# @app.post("/api/end-game")
+# def end_game():
+#     """Handle end of game:
+
+#     - remove board from list of boards
+#     - return JSON {score, numPlays, highScore}
+#     """
+
+#     lobby_id = request.json["gameId"]
+#     game = games[lobby_id]
+
+# #Don't really need?
+#     num_plays = session.get(SESS_NUM_PLAYS_KEY, 0)
+#     high_score = session.get(SESS_HIGH_SCORE_KEY, 0)
+
+#     session[SESS_NUM_PLAYS_KEY] = num_plays = num_plays + 1
+#     session[SESS_HIGH_SCORE_KEY] = high_score = max(game.score, high_score)
 #Don't really need above
 
 
@@ -140,10 +157,10 @@ def end_game():
 #Return object like:
     #{user: username: score:score}
 
-    return jsonify(
-        gameScore=game.score,
-        numPlays=num_plays,
-        highScore=high_score)
+    # return jsonify(
+    #     gameScore=game.score,
+    #     numPlays=num_plays,
+    #     highScore=high_score)
 
 
 
@@ -161,7 +178,7 @@ def end_game():
 
 #What are we going to store in session data?????????????
 #   username, roomId
-#   others might need lobby_owner? 
+#   others might need lobby_owner?
 
 
 # Games Object
@@ -174,3 +191,38 @@ def all_player_serialize(players):
     player_info = [{"player_id":players[player].username, "score":players[player].score} for player in players]
     # emit("debug", player_info)
     return player_info
+
+
+def check_if_winner(username, lobby_id):
+    """ Takes in a username and checks to see if that user is a winner """
+    if username == get_winner(lobby_id).username:
+        return True
+    else:
+        return False
+
+def get_winner(lobby_id):
+    players = games[lobby_id]["players"]
+    players_list = [players[player] for player in players]
+    # print('-----------------------------------', players_list,'-----------------------------------' )
+    def _myFunc(player):
+        return player.score
+
+    players_list.sort(reverse=True, key=_myFunc)
+    return players_list[0]
+"""
+Games Object (games in existence) =
+{
+    lobbyId1: {
+        players: {
+            "username1": player1(class obj),
+            "username2": player2,
+        }
+        game: game (instance of game class)
+
+    },
+    lobbyId2: {
+        players: [player1(obj), player2, player3, player4],
+        game: game (instance of game class)
+    }
+}
+"""

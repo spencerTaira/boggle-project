@@ -70,8 +70,8 @@ class BoggleGame():
         self.max_word_length_score = max_word_length_score
 
         self.board = self.get_random_board(fill_letters)
-        
-        self.game_length = 60 #initial length of game
+
+        self.game_length = 15 #initial length of game
         self.game_expire = self.game_length
         self.timer = setInterval(1,self.countdown)
         self.room = room
