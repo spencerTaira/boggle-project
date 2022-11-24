@@ -49,7 +49,7 @@ def homepage(room_name):
 # 'connect' is magic, automatically sent from client on connection
 @socketio.on('connect')
 def game_connect():
-
+    emit("debug", 'connnecttttingggg')
     lobby_id = session["room_name"]
     username = session["username"]
 
@@ -58,12 +58,14 @@ def game_connect():
     player = Player(username, lobby_id)
 
     if (lobby_id in games):
-
+        # if games[lobby_id].get("game", False):
+        #     games[]
         game = games[lobby_id]["game"]
         if username not in games[lobby_id]["players"]:
             games[lobby_id]["players"][username] = player
 
     else:
+
         game = BoggleGame(room=lobby_id)
         games[lobby_id] = {"game":game, "players":{username:player}}
 
@@ -124,12 +126,7 @@ def score_word():
     if check_if_winner(username, lobby_id):
         emit('debug', 'winner')
         emit('game-result', f"Congrats {username}!!! You are the winner!!!")
-        game = games[lobby_id]["game"]
-        game.reset()
-        emit('connected', {
-                "lobbyId":lobby_id,
-                "board":game.board,
-                }, to=lobby_id)
+
     else:
         emit('debug', 'loser')
         emit(
@@ -137,6 +134,30 @@ def score_word():
             f"Congrats {username}!!! You have earned yourself additional study hall!!!"
         )
 
+@socketio.on('restart') #restart button only visible to creator
+def restart():
+    lobby_id = session["room_name"]
+
+    game = games[lobby_id]["game"]
+    game.reset()
+
+    players = games[lobby_id]["players"]
+    for player in players:
+        players[player].reset()
+
+    emit('connected', {
+            "lobbyId":lobby_id,
+            "board":game.board,
+            }, to=lobby_id)
+
+
+    players_info = all_player_serialize(games[lobby_id]["players"])
+    emit('update_scores', players_info, to=lobby_id)
+
+@socketio.on('delete') #on creator going back to lobby #TODO: still need Front-end to emit
+def delete():
+    lobby_id = session["room_name"]
+    del games[lobby_id]["game"]
 
 
 

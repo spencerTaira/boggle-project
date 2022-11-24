@@ -31,6 +31,14 @@ function handleFormSubmit(evt) {
     $wordInput.val("").focus();
   }
 
+  $restartBtn.on("click", restart);
+
+  function restart(e) {
+    console.debug('restart');
+    e.preventDefault();
+
+    socket.emit('restart');
+  }
 
 /** Handle end of game */
 

@@ -9,8 +9,9 @@ const $message = $(".msg");
 const $table = $("table");
 const $scoreboard = $("#scoreboard");
 const $gameResults = $("#game-results");
+const $restartBtn = $("#restart");
 
-const GAME_LENGTH_SECS = 60;
+// const GAME_LENGTH_SECS = 60;
 
 let lobbyId;
 let secondsLeftInGame;
@@ -32,7 +33,11 @@ function start(data) {
   console.debug("start", data);
   lobbyId = data.lobbyId;
   let board = data.board;
+  $playedWords.empty();
+  $gameResults.hide();
+  $restartBtn.hide();
   $form.show();
+  showScore(0);
   displayBoard(board);
   // secondsLeftInGame = GAME_LENGTH_SECS;
   // showTimer(secondsLeftInGame);
@@ -113,6 +118,7 @@ function showTimer(secs) {
 
 function showGameResults(msg) {
   $gameResults.empty();
+  $gameResults.show();
   $gameResults.append(msg);
 }
 
@@ -152,4 +158,5 @@ function showGameResults(msg) {
 
 function endGame(){
   $form.hide();
+  $restartBtn.show();
 }
