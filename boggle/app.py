@@ -3,13 +3,15 @@ from uuid import uuid4
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from player import Player
 import random
+import os
 
-SESS_HIGH_SCORE_KEY = "high_score"
-SESS_NUM_PLAYS_KEY = "num_plays"
+# SESS_HIGH_SCORE_KEY = "high_score"
+# SESS_NUM_PLAYS_KEY = "num_plays"
 
+SECRET_KEY = os.environ['SECRET_KEY']
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "this-is-secret"
+app.config["SECRET_KEY"] = SECRET_KEY
 socketio = SocketIO(app)
 if __name__ == '__main__':
     socketio.run(app)
