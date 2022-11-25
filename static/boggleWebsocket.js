@@ -10,8 +10,8 @@ socket.on('debug', (data) => console.log('debug', data));
 socket.on('update_scores', updatePlayers);
 socket.on('countdown', showTimer);
 socket.on('endgame', () => {
-    endGame();
-    socket.emit('finished-game');
+  endGame();
+  socket.emit('finished-game');
 });
 socket.on('game-result', showGameResults)
 //socket.on('end_game')
@@ -21,24 +21,58 @@ socket.on('guess_result', handleGuessResult);
 
 $form.on("submit", handleFormSubmit);
 function handleFormSubmit(evt) {
-    evt.preventDefault();
+  evt.preventDefault();
 
-    const word = $wordInput.val().toUpperCase();
-    if (!word) return;
+  const word = $wordInput.val().toUpperCase();
+  if (!word) return;
 
-    socket.emit('guess', {'lobbyId': lobbyId, 'word':word});
+  socket.emit('guess', { 'lobbyId': lobbyId, 'word': word });
 
-    $wordInput.val("").focus();
-  }
+  $wordInput.val("").focus();
+}
 
-  $restartBtn.on("click", restart);
+$restartBtn.on("click", restart);
 
-  function restart(e) {
-    console.debug('restart');
-    e.preventDefault();
+function restart(e) {
+  console.debug('restart');
+  e.preventDefault();
 
-    socket.emit('restart');
-  }
+  socket.emit('restart');
+}
+
+
+window.onunload = sendDisconnect
+// $("#disconnect").on("click", closeSocket);
+
+// function closeSocket(){
+//   socket.on();
+// }
+
+// $("window").on("beforeunload", () => setTimeout(sendDisconnect,2000));
+
+
+function sendDisconnect(){
+  // e.preventDefault();
+  socket.disconnect(true);
+}
+
+// $table.on("unload", sendDisconnect);
+
+
+// window.addEventListener("beforeunload", closeWindow);
+// function closeWindow(evt){
+//   console.log(socket);
+//   setTimeout(function(){
+//     socket.emit('close');
+//     socket.disconnect(true);
+//   }, 10);
+  //evt.preventDefault();
+  //evt.returnValue = 'Thanks for playing!';
+// }
+
+// window.onunload = window.onbeforeunload = function(){socket.disconnect(true);}
+
+
 
 /** Handle end of game */
 

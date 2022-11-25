@@ -105,9 +105,10 @@ class BoggleGame():
         end game message to room"""
 
         self.game_expire -= 1
-        socketio.emit('debug', self.game_expire, to=self.room)
+        # socketio.emit('debug', self.game_expire, to=self.room)
         socketio.emit('countdown', self.game_expire, to=self.room)
-        if self.game_expire == 0:
+    
+        if self.game_expire <= 0:
             self.timer.cancel()
             socketio.emit('endgame', 'true', to=self.room)
 

@@ -8,11 +8,15 @@ import os
 # SESS_HIGH_SCORE_KEY = "high_score"
 # SESS_NUM_PLAYS_KEY = "num_plays"
 
-SECRET_KEY = os.environ['SECRET_KEY']
+# SECRET_KEY = os.environ['SECRET_KEY']
+
+SECRET_KEY = "hello"
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = SECRET_KEY
-socketio = SocketIO(app)
+# socketio = SocketIO(app,logger=True, engineio_logger=True, ping_interval=1, ping_timeout=5)
+
+socketio = SocketIO(app, logger=True, engineio_logger=True)
 if __name__ == '__main__':
     socketio.run(app)
 
@@ -54,7 +58,7 @@ def game_connect():
     emit("debug", 'connnecttttingggg')
     lobby_id = session["room_name"]
     username = session["username"]
-
+    print("Connection information>>>>>>>>>>>>>>>", request.sid, lobby_id, username )
     join_room(lobby_id)
 
     player = Player(username, lobby_id)
@@ -130,11 +134,40 @@ def score_word():
         emit('game-result', f"Congrats {username}!!! You are the winner!!!")
 
     else:
-        emit('debug', 'loser')
+        # emit('debug', 'loser')
         emit(
             'game-result',
             f"Congrats {username}!!! You have earned yourself additional study hall!!!"
         )
+
+@socketio.on('start')
+def start():
+    ...
+    #function to start the game for a paused state or not going
+
+@socketio.on('disconnecting')
+def disconnecting(data):
+    print("What happens when disconnecting is recieved?", data )
+
+@socketio.on('disconnect')
+def disconnect():
+    player = session["username"]
+    lobby_id = session["room_name"]
+    print("What happens at disconnect???????????????????", request.sid, player, lobby_id)
+    #handle user disconnections
+
+@socketio.on('close')
+def close():
+    player = session["username"]
+    lobby_id = session["room_name"]
+    print("What happens at closing???????????????????", request.sid, player, lobby_id)
+    #handle user disconnections
+
+
+@socketio.on('to-lobby')
+def to_lobby():
+    ...
+    #triggers back to lobby command
 
 @socketio.on('restart') #restart button only visible to creator
 def restart():
