@@ -10,6 +10,7 @@ const $table = $("table");
 const $scoreboard = $("#scoreboard");
 const $gameResults = $("#game-results");
 const $restartBtn = $("#restart");
+const $playerName = $("#player-name");
 
 // const GAME_LENGTH_SECS = 60;
 
@@ -36,6 +37,7 @@ function start(data) {
   $playedWords.empty();
   $gameResults.hide();
   $restartBtn.hide();
+  $playerName.append(`${data.username}:`);
   $form.show();
   showScore(0);
   displayBoard(board);
@@ -48,7 +50,9 @@ function updatePlayers(playersData) {
   $scoreboard.empty();
   for (const playerData of playersData) {
     $scoreboard.append(
-      `<div class="player-score">Name: ${playerData.player_id} Score: ${playerData.score}</div>`
+      `<div class="player-score">
+        <b>Name</b>: ${playerData.player_id} <b>Score</b>: ${playerData.score}
+      </div>`
       );
   }
 }

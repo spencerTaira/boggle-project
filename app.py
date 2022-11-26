@@ -78,6 +78,7 @@ def game_connect():
     emit('connected', {
             "lobbyId":lobby_id,
             "board":game.board,
+            "username": username,
             })
 
     players_info = all_player_serialize(games[lobby_id]["players"])
@@ -259,7 +260,18 @@ def all_player_serialize(players):
     """ Takes in an object of players and returns their username and score
     in a format that can be JSONed"""
 
-    player_info = [{"player_id":players[player].username, "score":players[player].score} for player in players]
+    # players_list = [players[player] for player in players]
+    # # print('-----------------------------------', players_list,'-----------------------------------' )
+    def _myFunc(player):
+        return player['score']
+
+    player_info = [
+        {
+            "player_id":players[player].username,
+            "score":players[player].score
+        } for player in players]
+
+    player_info.sort(reverse=True, key=_myFunc)
     # emit("debug", player_info)
     return player_info
 
