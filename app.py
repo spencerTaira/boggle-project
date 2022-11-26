@@ -140,34 +140,42 @@ def score_word():
             f"Congrats {username}!!! You have earned yourself additional study hall!!!"
         )
 
-@socketio.on('start')
-def start():
-    ...
-    #function to start the game for a paused state or not going
+# @socketio.on('start')
+# def start():
+#     ...
+#     #function to start the game for a paused state or not going
 
-@socketio.on('disconnecting')
-def disconnecting(data):
-    print("What happens when disconnecting is recieved?", data )
+# @socketio.on('disconnecting')
+# def disconnecting(data):
+#     print("What happens when disconnecting is recieved?", data )
 
 @socketio.on('disconnect')
 def disconnect():
     player = session["username"]
     lobby_id = session["room_name"]
-    print("What happens at disconnect???????????????????", request.sid, player, lobby_id)
+    #print("What happens at disconnect???????????????????", request.sid, player, lobby_id)
+    del games[lobby_id]["players"][player]
+    if len(games[lobby_id]["players"])==0:
+        games[lobby_id]["game"].timer.cancel()
+        del games[lobby_id]
+    else:
+        players_info = all_player_serialize(games[lobby_id]["players"])
+        #emit('debug', players_info)
+        emit('update_scores', players_info, to=lobby_id)
     #handle user disconnections
 
-@socketio.on('close')
-def close():
-    player = session["username"]
-    lobby_id = session["room_name"]
-    print("What happens at closing???????????????????", request.sid, player, lobby_id)
-    #handle user disconnections
+# @socketio.on('close')
+# def close():
+#     player = session["username"]
+#     lobby_id = session["room_name"]
+#     print("What happens at closing???????????????????", request.sid, player, lobby_id)
+#     #handle user disconnections
 
 
-@socketio.on('to-lobby')
-def to_lobby():
-    ...
-    #triggers back to lobby command
+# @socketio.on('to-lobby')
+# def to_lobby():
+#     ...
+#     #triggers back to lobby command
 
 @socketio.on('restart') #restart button only visible to creator
 def restart():

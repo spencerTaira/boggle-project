@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <title>Boggle</title>
   <link rel="stylesheet" href="/static/boggle.css">
@@ -10,86 +11,85 @@
     <!--All player scores go here-->
   </div>
 
-<main>
-  <table class="board">
-    <!-- ultimately, you'll write the JS to make a dynamic board ---
+  <main>
+    <table class="board">
+      <!-- ultimately, you'll write the JS to make a dynamic board ---
          when you do, it will look like this: -->
-    <tbody>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    </tbody>
-  </table>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
 
-  <!-- <p>Previous high score:
-    <b>{{ high_score }}</b>
-    in {{ num_plays }} plays
-  </p> -->
+    <div>
+      <p id="game-results">
+        <!-- Game results go here -->
+      </p>
+    </div>
 
-  <p id="game-results">
-    <!-- Game results go here -->
-  </p>
-  <p>
-    Score: <b id="score">0</b> &mdash;
-    Seconds Left: <b id="timer">&ndash;</b>
-  </p>
+    <p>
+      Score: <b id="score">0</b> &mdash;
+      Seconds Left: <b id="timer">&ndash;</b>
+    </p>
 
-  <form id="newWordForm">
-    <input
-        id="wordInput"
-        class="word-input"
-        autofocus aria-label="Word">
-    <button class="word-input-btn">Go</button>
-  </form>
+    <form id="newWordForm" autocomplete="off">
+      <input id="wordInput" class="word-input" autofocus aria-label="Word">
+      <button class="word-input-btn">Go</button>
+    </form>
 
-  <button id="restart">Restart!</button>
-</main>
+    <button id="restart">Restart!</button>
+  </main>
+  <div>
+    <p class="msg">
+      <!-- our JS will put messages here dynamically -->
+    </p>
+  </div>
+  <div>
+    <ul id="words">
+      <!-- our JS will words here as they score -->
+    </ul>
+  </div>
 
-<p class="msg">
-  <!-- our JS will put messages here dynamically -->
-</p>
-
-<ul id="words">
-  <!-- our JS will words here as they score -->
-</ul>
-<button id="disconnect">CLICK ME!!!!!!</button>
-
-<script src="https://unpkg.com/jquery"></script>
-<script src="https://unpkg.com/axios/dist/axios.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-<script src="/static/boggle.js"></script>
-<script src="/static/boggleWebsocket.js"></script>
+  <script src="https://unpkg.com/jquery"></script>
+  <script src="https://unpkg.com/axios/dist/axios.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+    integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+    crossorigin="anonymous"></script>
+  <script src="/static/boggle.js"></script>
+  <script src="/static/boggleWebsocket.js"></script>
 </body>
+
 </html>
