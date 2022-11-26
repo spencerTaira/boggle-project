@@ -53,6 +53,7 @@ window.onunload = sendDisconnect
 
 function sendDisconnect(){
   // e.preventDefault();
+  socket.emit('disconnecting');
   socket.disconnect(true);
 }
 
