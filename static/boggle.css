@@ -3,16 +3,30 @@ body {
     font-family: -apple-system, sans-serif;
 }
 
-main {
+.container {
+    margin-top: 30px;
+}
+
+#title {
+    font-size: 30px;
+    font-weight: bolder;
+    text-align: center;
+    margin-top: 100px;
+}
+
+table {
+    border-collapse: unset;
+}
+/* main {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
     font-size: 120%;
-}
+} */
 
-.board {
+.boggle-board {
     border: solid 20px rgb(29, 73, 132);
     border-radius: 10px;
     /*font-family: monospace;*/
@@ -21,7 +35,7 @@ main {
     box-shadow: #000033 5px 5px 15px 1px;
 }
 
-.board td {
+.boggle-board td {
     text-align: center;
     width: 1.5em;
     height: 1.5em;
@@ -32,16 +46,18 @@ main {
 
 .msg {
     top: 1em;
-    position: absolute;
+    /* position: absolute; */
     padding: 0.5em;
 }
 
 #words {
-    position: absolute;
-    top: 1em;
+    /* position: absolute; */
+    /* top: 1em;
     right: 1em;
-    width: 7em;
-    list-style: none;
+    width: 7em; */
+    /* list-style: none; */
+    /* display: inline-block; */
+    /* margin: auto 40px; */
 }
 
 .msg.ok {
@@ -60,17 +76,64 @@ form {
 
 .word-input {
     font-size: 150%;
-    width: 5em;
+    width: 7em;
+    height: 30px;
     text-align: center;
     text-transform: uppercase;
 }
 
 .word-input-btn {
     font-size: 120%;
-    padding: 0.25em;
+    /* padding: 0.25em; */
+    height: 30px;
     background-color: rgb(29, 73, 132);
     border: solid 1px black;
     border-radius: 3px;
     color: white;
     text-transform: uppercase;
 }
+
+#restart {
+    font-size: 120%;
+    /* padding: 0.25em; */
+    height: 30px;
+    background-color: rgb(29, 73, 132);
+    border: solid 1px black;
+    border-radius: 3px;
+    color: white;
+    text-transform: uppercase;
+}
+
+.row {
+    margin: 0 auto 20px;
+
+}
+
+#player-stuff div{
+    text-align: center;
+}
+
+.played-word {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#scoreboard-title {
+    margin-top: 30px;
+}
+
+#scoreboard-container {
+    /* padding-right:10px; */
+}
+#scoreboard-container div {
+    text-align: right;
+}
+
+/* #scoreboard {
+    height: 100px;
+} */
+
+/* .player-score {
+    margin: 0px;
+    display: inline-block;
+} */

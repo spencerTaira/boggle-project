@@ -48,7 +48,7 @@ function updatePlayers(playersData) {
   $scoreboard.empty();
   for (const playerData of playersData) {
     $scoreboard.append(
-      `<p>Name: ${playerData.player_id} Score: ${playerData.score}</p>`
+      `<div class="player-score">Name: ${playerData.player_id} Score: ${playerData.score}</div>`
       );
   }
 }
@@ -89,7 +89,8 @@ function handleGuessResult(data) {
 /** Add word to played word list in DOM */
 
 function showWord(word) {
-  $($playedWords).append($("<li>", { text: word }));
+  // $($playedWords).append($("<div class='played-word'>", { text: word }));
+  $($playedWords).append($(`<div class='played-word'>${word}</div>`));
 }
 
 
