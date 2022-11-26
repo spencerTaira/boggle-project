@@ -43,10 +43,11 @@ Games Object (games in existence) =
 @app.get("/<room_name>")
 def homepage(room_name):
     """Show board."""
+
     session["room_name"] = room_name
 
     ##############!!!!!!!!!!!!!!!!!!Make this real later!!!!
-    session["username"] = str(random.randint(0,100))
+    session["username"] = session.get("username", None) or str(random.randint(0,100))
 
     return render_template(
         "index.html"

@@ -37,6 +37,7 @@ function start(data) {
   $playedWords.empty();
   $gameResults.hide();
   $restartBtn.hide();
+  $playerName.empty();
   $playerName.append(`${data.username}:`);
   $form.show();
   showScore(0);
