@@ -41,40 +41,6 @@ function restart(e) {
 }
 
 
-window.onunload = sendDisconnect
-// $("#disconnect").on("click", closeSocket);
-
-// function closeSocket(){
-//   socket.on();
-// }
-
-// $("window").on("beforeunload", () => setTimeout(sendDisconnect,2000));
-
-
-function sendDisconnect(){
-  // e.preventDefault();
-  socket.emit('disconnecting');
-  socket.disconnect(true);
-}
-
-// $table.on("unload", sendDisconnect);
-
-
-// window.addEventListener("beforeunload", closeWindow);
-// function closeWindow(evt){
-//   console.log(socket);
-//   setTimeout(function(){
-//     socket.emit('close');
-//     socket.disconnect(true);
-//   }, 10);
-  //evt.preventDefault();
-  //evt.returnValue = 'Thanks for playing!';
-// }
-
-// window.onunload = window.onbeforeunload = function(){socket.disconnect(true);}
-
-
-
 /** Handle end of game */
 
 
