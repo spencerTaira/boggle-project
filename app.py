@@ -8,9 +8,9 @@ import os
 # SESS_HIGH_SCORE_KEY = "high_score"
 # SESS_NUM_PLAYS_KEY = "num_plays"
 
-# SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = os.environ['SECRET_KEY']
 
-SECRET_KEY = "hello"
+# SECRET_KEY = "hello"
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = SECRET_KEY
