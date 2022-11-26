@@ -40,7 +40,7 @@ Games Object (games in existence) =
 """
 
 
-@app.get("/<room_name>")
+@app.get("/boggle/<room_name>")
 def homepage(room_name):
     """Show board."""
 
